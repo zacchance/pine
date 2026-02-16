@@ -18,13 +18,13 @@ namespace pine
     };
 
     template <class T>
-    class DiscreteDistribution : public Distribution<T>
+    class CustomDistribution : public Distribution<T>
     {
         public:
         array<T> domain;
         array<T> pmf;
 
-        DiscreteDistribution();
+        CustomDistribution();
 
         T mean() const;
         T std() const;
@@ -35,16 +35,18 @@ namespace pine
 
 };
 
-using pine::DiscreteDistribution;
+using pine::CustomDistribution;
 
 template <class T>
-DiscreteDistribution<T>::DiscreteDistribution() {};
+CustomDistribution<T>::CustomDistribution() {};
 
 template <class T>
-inline T DiscreteDistribution<T>::mean() const
+inline T CustomDistribution<T>::mean() const
 {
-    for (size_t ii = 0; ii < 10; ii++)
+    T out = 0.0;
+    for (size_t ii = 0; ii < domain.size(); ii++)
     {
-
+        out += domain[ii] * pmf[ii];
     }
+    return out;
 }
