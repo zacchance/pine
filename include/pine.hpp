@@ -10,6 +10,7 @@ namespace pine
         public:
 
         virtual T mean() const = 0;
+        virtual T mom2() const = 0;
         virtual T std() const = 0;
         virtual T var() const = 0;
         
@@ -27,6 +28,7 @@ namespace pine
         CustomDistribution();
 
         T mean() const;
+        T mom2() const;
         T std() const;
         T var() const;
         T sample() const;
@@ -49,4 +51,27 @@ inline T CustomDistribution<T>::mean() const
         out += domain[ii] * pmf[ii];
     }
     return out;
+}
+
+template <class T>
+inline T CustomDistribution<T>::mom2() const
+{
+    T out = 0.0;
+    for (size_t ii = 0; ii < domain.size(); ii++)
+    {
+        out += pow(abs(domain[ii]), 2) * pmf[ii];
+    }
+    return out;
+}
+
+template <class T>
+inline T CustomDistribution<T>::var() const
+{
+    T out = mom2() - pow(abs(mean()), 2);
+}
+
+template <class T>
+inline T CustomDistribution<T>::std() const
+{
+    T out = sqrt(var());
 }
